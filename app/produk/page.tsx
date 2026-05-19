@@ -27,19 +27,19 @@ export default function ProdukPage() {
   return (
     <>
       {/* PAGE HEADER */}
-      <section className="relative bg-gradient-to-br from-[#C41E1E] to-[#8B0000] py-16 sm:py-20 lg:py-24 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-[#C41E1E] via-[#A01515] to-[#8B0000] py-16 sm:py-20 lg:py-24 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 right-20 w-72 h-72 border border-white rounded-full" />
-          <div className="absolute -bottom-10 -left-10 w-48 h-48 border border-white rounded-full" />
+          <div className="hero-circle absolute top-20 right-20 w-72 h-72 border border-white/30 rounded-full" />
+          <div className="hero-circle absolute -bottom-10 -left-10 w-48 h-48 border border-white/30 rounded-full" style={{ animationDelay: '-3s' }} />
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <span className="text-white/70 text-sm font-medium uppercase tracking-widest" data-aos="fade-up">
             Produk Kami
           </span>
-          <h1 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-white mt-3 mb-4" data-aos="fade-up">
+          <h1 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-white mt-3 mb-4" data-aos="fade-up" data-aos-delay="100">
             {currentCategory ? currentCategory.name : 'Pilihan Lengkap Ayam & Unggas Segar'}
           </h1>
-          <p className="text-white/80 text-base sm:text-lg max-w-2xl mx-auto" data-aos="fade-up">
+          <p className="text-white/80 text-base sm:text-lg max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
             {currentCategory
               ? `${currentCategory.products.length} produk tersedia — Fresh & Frozen`
               : 'Tersedia dalam kondisi fresh maupun frozen, berbagai ukuran dan potongan'
@@ -59,7 +59,7 @@ export default function ProdukPage() {
                 className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 ${
                   activeTab === tab.id
                     ? 'bg-[#C41E1E] text-white shadow-md'
-                    : 'bg-white text-[#1A1A1A] border border-gray-200 hover:border-[#C41E1E] hover:text-[#C41E1E]'
+                    : 'bg-white text-[#1A1A1A] border border-gray-200 hover:border-[#C41E1E] hover:text-[#C41E1E] hover:shadow-sm'
                 }`}
               >
                 {tab.label}
@@ -77,11 +77,11 @@ export default function ProdukPage() {
 
           {!loading && activeTab === 'all' && (
             <div className="space-y-14">
-              {productCategories.map((cat) => {
+              {productCategories.map((cat, catIdx) => {
                 const items = allProducts.filter((p) => p.categoryId === cat.id)
                 if (items.length === 0) return null
                 return (
-                  <div key={cat.id}>
+                  <div key={cat.id} data-aos="fade-up">
                     <div className="flex items-center justify-between mb-6">
                       <div>
                         <h2 className="font-heading font-bold text-xl sm:text-2xl text-[#1A1A1A]">{cat.name}</h2>
@@ -95,17 +95,20 @@ export default function ProdukPage() {
                       </Link>
                     </div>
                     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {items.slice(0, 3).map((product) => (
-                        <ProductCard key={product.id} product={product} />
+                      {items.slice(0, 3).map((product, i) => (
+                        <div key={product.id} data-aos="fade-up" data-aos-delay={(i % 3) * 100}>
+                          <ProductCard product={product} />
+                        </div>
                       ))}
                     </div>
                     {items.length > 3 && (
                       <div className="text-center mt-6">
                         <Link
                           href={`/produk/${cat.id}`}
-                          className="inline-flex items-center gap-1 text-[#C41E1E] hover:text-[#8B0000] font-medium text-sm transition-colors"
+                          className="inline-flex items-center gap-1 text-[#C41E1E] hover:text-[#8B0000] font-medium text-sm transition-colors group"
                         >
-                          Lihat {items.length - 3} produk lainnya →
+                          Lihat {items.length - 3} produk lainnya
+                          <span className="group-hover:translate-x-1 transition-transform">→</span>
                         </Link>
                       </div>
                     )}
@@ -118,15 +121,17 @@ export default function ProdukPage() {
           {!loading && activeTab !== 'all' && (
             <>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+                {filteredProducts.map((product, i) => (
+                  <div key={product.id} data-aos="fade-up" data-aos-delay={(i % 3) * 100}>
+                    <ProductCard product={product} />
+                  </div>
                 ))}
               </div>
               {currentCategory && (
                 <div className="text-center mt-10">
                   <Link
                     href="/produk"
-                    className="inline-flex items-center gap-1 text-[#C41E1E] hover:text-[#8B0000] font-medium text-sm transition-colors"
+                    className="inline-flex items-center gap-1 bg-[#C41E1E] hover:bg-[#8B0000] text-white font-medium py-3 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg"
                   >
                     ← Kembali ke Semua Produk
                   </Link>

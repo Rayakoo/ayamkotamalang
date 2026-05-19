@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { allProducts, type Product } from '@/data/products'
+import AnimatedCounter from '@/components/AnimatedCounter'
 
 const featuredProducts = allProducts.filter((p) => p.isBestSeller).slice(0, 6)
 
@@ -12,6 +13,8 @@ export default function Home() {
       {/* HERO */}
       <section className="relative min-h-[85vh] bg-[#FAF5EE] flex items-center overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-[#C41E1E]/5 rounded-bl-[100px] hidden lg:block" />
+        <div className="absolute top-20 left-10 w-20 h-20 border-2 border-[#C41E1E]/10 rounded-full hero-circle" />
+        <div className="absolute bottom-20 right-10 w-32 h-32 border-2 border-[#C41E1E]/10 rounded-full hero-circle" style={{ animationDelay: '-3s' }} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 w-full relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div data-aos="fade-right">
@@ -29,7 +32,7 @@ export default function Home() {
               <div className="flex flex-wrap gap-3 sm:gap-4">
                 <Link
                   href="/produk"
-                  className="bg-[#C41E1E] hover:bg-[#8B0000] text-white font-semibold text-sm sm:text-base py-3.5 px-7 sm:px-9 rounded-xl transition-all duration-300 shadow-lg shadow-red-200"
+                  className="bg-[#C41E1E] hover:bg-[#8B0000] text-white font-semibold text-sm sm:text-base py-3.5 px-7 sm:px-9 rounded-xl transition-all duration-300 shadow-lg shadow-red-200 hover:shadow-xl hover:shadow-red-300 hover:-translate-y-0.5"
                 >
                   Lihat Katalog Produk
                 </Link>
@@ -47,7 +50,7 @@ export default function Home() {
               </div>
             </div>
             <div className="relative" data-aos="fade-left">
-              <div className="relative rounded-2xl overflow-hidden bg-gray-200 shadow-2xl aspect-[4/3]">
+              <div className="relative rounded-2xl overflow-hidden bg-gray-200 shadow-2xl aspect-[4/3] group">
                 <div className="w-full h-full flex items-center justify-center opacity-50 bg-gray-300">
                   <div className="text-center p-8">
                     <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-gray-400 flex items-center justify-center">
@@ -60,10 +63,10 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="absolute -top-3 -right-3 bg-[#C41E1E] text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg rotate-6">
+              <div className="absolute -top-3 -right-3 bg-[#C41E1E] text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg rotate-6 animate-float">
                 BEST SELLER
               </div>
-              <div className="absolute -bottom-4 -left-4 bg-white rounded-lg shadow-xl p-3 sm:p-4 flex items-center gap-2 max-w-[200px]">
+              <div className="absolute -bottom-4 -left-4 bg-white rounded-lg shadow-xl p-3 sm:p-4 flex items-center gap-2 max-w-[200px] animate-float" style={{ animationDelay: '-1.5s' }}>
                 <span className="text-yellow-400 text-lg">⭐</span>
                 <span className="text-xs sm:text-sm text-[#1A1A1A] font-medium">
                   Dipercaya 50+ klien hotel & restoran
@@ -76,17 +79,19 @@ export default function Home() {
       </section>
 
       {/* STATS BAR */}
-      <section className="bg-[#C41E1E] py-8 sm:py-10">
+      <section className="bg-gradient-to-r from-[#C41E1E] to-[#8B0000] py-8 sm:py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center text-white">
             {[
-              { number: '55+', label: 'Tahun Pengalaman' },
-              { number: '50+', label: 'Klien B2B' },
-              { number: '100%', label: 'Halal Certified' },
-              { number: '★ 4.9', label: 'Rating Kepuasan' },
-            ].map((s) => (
-              <div key={s.label} data-aos="fade-up">
-                <div className="font-heading font-bold text-2xl sm:text-3xl">{s.number}</div>
+              { number: 55, label: 'Tahun Pengalaman', suffix: '+' },
+              { number: 50, label: 'Klien B2B', suffix: '+' },
+              { number: 100, label: 'Halal Certified', suffix: '%' },
+              { number: 4.9, label: 'Rating Kepuasan', prefix: '★ ' },
+            ].map((s, i) => (
+              <div key={s.label} data-aos="fade-up" data-aos-delay={i * 100}>
+                <div className="font-heading font-bold text-2xl sm:text-3xl">
+                  <AnimatedCounter value={s.number} suffix={s.suffix} prefix={s.prefix || ''} />
+                </div>
                 <div className="text-white/70 text-xs sm:text-sm mt-1">{s.label}</div>
               </div>
             ))}
@@ -108,26 +113,34 @@ export default function Home() {
             </div>
             <Link
               href="/produk"
-              className="mt-4 sm:mt-0 inline-flex items-center gap-1 text-[#C41E1E] hover:text-[#8B0000] font-medium text-sm transition-colors"
+              className="mt-4 sm:mt-0 inline-flex items-center gap-1 text-[#C41E1E] hover:text-[#8B0000] font-medium text-sm transition-colors group"
               data-aos="fade-left"
             >
               Lihat Semua Produk
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </Link>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredProducts.map((product) => (
-              <ProductCardHome key={product.id} product={product} />
+            {featuredProducts.map((product, i) => (
+              <div key={product.id} data-aos="fade-up" data-aos-delay={(i % 3) * 100}>
+                <ProductCardHome product={product} />
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* TRUST SECTION */}
-      <section className="bg-[#FAF5EE] py-16 sm:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="bg-[#FAF5EE] py-16 sm:py-20 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-40 h-40 bg-[#C41E1E]/5 rounded-full -mr-20 -mt-20 hero-circle" />
+        <div className="absolute bottom-0 left-0 w-60 h-60 bg-[#C41E1E]/5 rounded-full -ml-20 -mb-20 hero-circle" style={{ animationDelay: '-4s' }} />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-10" data-aos="fade-up">
+            <span className="text-[#C41E1E] font-heading font-bold text-xs sm:text-sm tracking-widest">MENGAPA MEMILIH KAMI</span>
+            <h2 className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl text-[#1A1A1A] mt-3">Kenapa Harus Ayam Kota Malang?</h2>
+          </div>
           <div className="grid md:grid-cols-3 gap-6 sm:gap-8">
             {[
               {
@@ -176,26 +189,30 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="bg-[#C41E1E] py-16 sm:py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="relative bg-gradient-to-r from-[#C41E1E] to-[#8B0000] py-16 sm:py-20 overflow-hidden">
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-10 left-10 w-40 h-40 border border-white rounded-full hero-circle" />
+          <div className="absolute bottom-10 right-10 w-60 h-60 border border-white rounded-full hero-circle" style={{ animationDelay: '-2s' }} />
+        </div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <h2 className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl text-white mb-4" data-aos="fade-up">
             Siap Melayani Kebutuhan Unggas Anda?
           </h2>
-          <p className="text-white/80 text-base sm:text-lg mb-8" data-aos="fade-up">
+          <p className="text-white/80 text-base sm:text-lg mb-8" data-aos="fade-up" data-aos-delay="100">
             Hubungi kami sekarang untuk pemesanan dan konsultasi gratis
           </p>
-          <div className="flex flex-wrap justify-center gap-4" data-aos="fade-up">
+          <div className="flex flex-wrap justify-center gap-4" data-aos="fade-up" data-aos-delay="200">
             <a
               href="https://wa.me/628383200098?text=Halo%2C%20saya%20ingin%20memesan%20produk%20Ayam%20Kota%20Malang"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white text-[#C41E1E] hover:bg-gray-100 font-semibold py-3.5 px-8 rounded-xl transition-colors shadow-lg"
+              className="bg-white text-[#C41E1E] hover:bg-gray-100 font-semibold py-3.5 px-8 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
             >
               Pesan via WhatsApp
             </a>
             <Link
               href="/kontak"
-              className="border-2 border-white text-white hover:bg-white hover:text-[#C41E1E] font-semibold py-3.5 px-8 rounded-xl transition-colors"
+              className="border-2 border-white text-white hover:bg-white hover:text-[#C41E1E] font-semibold py-3.5 px-8 rounded-xl transition-all duration-300"
             >
               Hubungi Kami
             </Link>

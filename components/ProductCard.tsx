@@ -10,10 +10,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const waUrl = `https://wa.me/628383200098?text=${encodeURIComponent(waMessage)}`
 
   return (
-    <div
-      className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"
-      data-aos="fade-up"
-    >
+    <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
       <Link href={`/produk/${product.categoryId}`} className="block relative h-48 sm:h-56 overflow-hidden bg-gray-200">
         {imgError ? (
           <div className="w-full h-full flex items-center justify-center opacity-50 bg-gray-300">
