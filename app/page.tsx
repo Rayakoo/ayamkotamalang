@@ -228,10 +228,10 @@ function ProductCardHome({ product }: { product: Product }) {
   const waUrl = `https://wa.me/628383200098?text=${encodeURIComponent(`Halo, saya tertarik dengan produk ${product.name} (${product.nameId}) dari Ayam Kota Malang.`)}`
 
   return (
-    <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
-      <div className="relative h-48 overflow-hidden bg-gray-200">
+    <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:scale-[1.03] group">
+      <div className="relative h-40 group-hover:h-52 overflow-hidden bg-gray-100 transition-all duration-500">
         {imgError ? (
-          <div className="w-full h-full flex items-center justify-center opacity-50 bg-gray-300">
+          <div className="w-full h-full flex items-center justify-center opacity-50 bg-gray-200">
             <div className="text-center p-4">
               <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-gray-400 flex items-center justify-center">
                 <svg className="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -246,12 +246,12 @@ function ProductCardHome({ product }: { product: Product }) {
             src={product.image}
             alt={product.name}
             loading="lazy"
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-all duration-500"
             onError={() => setImgError(true)}
           />
         )}
       </div>
-      <div className="p-4">
+      <div className="p-4 group-hover:pt-5 transition-all duration-500">
         <h3 className="font-heading font-bold text-[#1A1A1A]">{product.name}</h3>
         <p className="text-[#6B6B6B] italic text-xs mb-2">{product.nameId}</p>
         <p className="text-[#6B6B6B] text-xs leading-relaxed mb-3 line-clamp-2">{product.description}</p>

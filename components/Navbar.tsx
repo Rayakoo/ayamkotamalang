@@ -16,14 +16,16 @@ const navLinks = [
 export default function Navbar() {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [desktopDropdownOpen, setDesktopDropdownOpen] = useState(false)
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const dropdownRef = useRef<HTMLLIElement>(null)
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setMobileOpen(false)
-      setDropdownOpen(false)
+      setDesktopDropdownOpen(false)
+      setMobileDropdownOpen(false)
     }, 0)
     return () => clearTimeout(timer)
   }, [pathname])
@@ -36,11 +38,13 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) setDropdownOpen(false)
+      if (desktopDropdownOpen && dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDesktopDropdownOpen(false)
+      }
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+  }, [desktopDropdownOpen])
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? 'hidden' : ''
@@ -68,18 +72,18 @@ export default function Navbar() {
             link.hasDropdown ? (
               <li key={link.href} ref={dropdownRef} className="relative list-none">
                 <button
-                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  onClick={() => setDesktopDropdownOpen(!desktopDropdownOpen)}
                   className={`px-3 xl:px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 flex items-center gap-1 ${isActive('/produk') ? 'text-[#C41E1E] bg-red-50' : 'text-[#1A1A1A] hover:text-[#C41E1E] hover:bg-red-50'}`}
                 >
                   Produk
-                  <svg className={`w-3.5 h-3.5 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className={`w-3.5 h-3.5 transition-transform duration-200 ${desktopDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
-                {dropdownOpen && (
+                {desktopDropdownOpen && (
                   <div className="absolute top-full left-0 mt-1 w-56 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50">
                     {productCategories.map((cat) => (
-                      <Link key={cat.id} href={`/produk/${cat.id}`} onClick={() => setDropdownOpen(false)}
+                      <Link key={cat.id} href={`/produk/${cat.id}`} onClick={() => setDesktopDropdownOpen(false)}
                         className="block w-full text-left px-4 py-2.5 text-sm text-[#1A1A1A] hover:bg-red-50 hover:text-[#C41E1E] transition-colors duration-150"
                       >
                         {cat.name}
@@ -133,15 +137,15 @@ export default function Navbar() {
           {navLinks.map((link) =>
             link.hasDropdown ? (
               <div key={link.href}>
-                <button onClick={() => setDropdownOpen(!dropdownOpen)}
+                <button onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
                   className="w-full flex items-center justify-between px-3 py-3 text-sm font-medium text-[#1A1A1A] hover:bg-red-50 hover:text-[#C41E1E] rounded-lg transition-colors"
                 >
                   Produk
-                  <svg className={`w-4 h-4 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className={`w-4 h-4 transition-transform ${mobileDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
-                {dropdownOpen && (
+                {mobileDropdownOpen && (
                   <div className="ml-3 space-y-1 pb-2">
                     <Link href="/produk" onClick={() => setMobileOpen(false)}
                       className="block px-3 py-2 text-sm font-medium text-[#C41E1E] hover:bg-red-50 rounded-lg transition-colors"
